@@ -1,0 +1,24 @@
+= Playing with Prolog
+
+We are reading
+
+- Leon Sterling, Ehud Shapiro, "The Art of Prolog".
+
+Tools:
+
+- link:https://www.swi-prolog.org/[SWI Prolog]
+
+- https://packages.debian.org/stable/interpreters/swi-prolog:[`swi-prolog`] in Debian
+
+- https://github.com/arthwang/vsc-prolog
+
+- https://github.com/rebornix/vscode-prolog
+
+
+== Files
+
+- link:biblical.pl[Biblical genealogy]
+- link:graph.pl[Directed graph]
+- link:peano.pl[Peano arithmetic]
+- link:arithmetic.pl[Arithmetic]
+- link:satisfiability.pl[Satisfiability of boolean formulae]
