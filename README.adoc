@@ -29,3 +29,5 @@ Here's a growing collection of code samples.
 - link:arithmetic.pl[Arithmetic]
 - link:satisfiability.pl[Satisfiability of boolean formulae]
 - link:lists.pl[Lists]
+- link:permutations.pl[Permutations]
+- link:insertion_sort.pl[Insertion sort], link:merge_sort.pl[Merge sort], link:quick_sort.pl[Quick sort]
