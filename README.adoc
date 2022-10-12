@@ -1,24 +1,31 @@
 = Playing with Prolog
 
-We are reading
+Just for fun, I am reading
 
 - Leon Sterling, Ehud Shapiro, "The Art of Prolog".
 
-Tools:
+image:art-of-prolog.jpg[]
 
-- link:https://www.swi-prolog.org/[SWI Prolog]
+**Prolog** (from french _"programmation en logique"_) is a logical programming language.
 
-- https://packages.debian.org/stable/interpreters/swi-prolog:[`swi-prolog`] in Debian
+In this repo, I will collect some code samples, solutions to exercises, etc.
 
-- https://github.com/arthwang/vsc-prolog
+I am using link:https://www.swi-prolog.org/[SWI Prolog].
+In Debian, it is available from the package
+https://packages.debian.org/stable/interpreters/swi-prolog:[`swi-prolog`].
 
-- https://github.com/rebornix/vscode-prolog
+There are a couple of plugins for VS Code:
+link:https://github.com/arthwang/vsc-prolog[`vsc-prolog`] and
+link:https://github.com/rebornix/vscode-prolog[`vscode-prolog`].
 
 
 == Files
+
+Here's a growing collection of code samples.
 
 - link:biblical.pl[Biblical genealogy]
 - link:graph.pl[Directed graph]
 - link:peano.pl[Peano arithmetic]
 - link:arithmetic.pl[Arithmetic]
 - link:satisfiability.pl[Satisfiability of boolean formulae]
+- link:lists.pl[Lists]
