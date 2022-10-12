@@ -39,9 +39,9 @@ member(X, Ys) :- append(_, [X|Xs], Ys).
 reverse([], []).
 reverse([X|Xs], Zs) :- reverse(Xs, Ys), append(Ys, [X], Zs).
 
-reverseAcc(Xs, Ys) :- reverseAcc(Xs, [], Ys).
-reverseAcc([X|Xs], Acc, Ys) :- reverseAcc(Xs, [X|Acc], Ys).
-reverseAcc([], Ys, Ys).
+reverse_acc(Xs, Ys) :- reverse_acc(Xs, [], Ys).
+reverse_acc([X|Xs], Acc, Ys) :- reverse_acc(Xs, [X|Acc], Ys).
+reverse_acc([], Ys, Ys).
 
 adjacent(X, Y, [X|[Y|_]]).
 adjacent(X, Y, [_|Zs]) :- adjacent(X, Y, Zs).
@@ -109,7 +109,7 @@ X = 3.
 ?- reverse([1,2,3], Xs).
 Xs = [3, 2, 1].
 
-?- reverseAcc([1,2,3], Xs).
+?- reverse_acc([1,2,3], Xs).
 Xs = [3, 2, 1].
 
 ?- suffix(Xs, [1,2,3]).
