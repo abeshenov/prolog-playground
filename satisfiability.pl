@@ -1,5 +1,5 @@
-%% Satisfiability of boolean formulae.
-%% The Art of Prolog, Section 3.5.
+% Satisfiability of boolean formulae.
+% The Art of Prolog, Section 3.5.
 
 satisfiable(true) :- !.
 satisfiable(and(X,Y)) :- satisfiable(X), satisfiable(Y).

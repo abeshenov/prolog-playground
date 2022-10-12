@@ -1,5 +1,5 @@
-%% Arithmetic.
-%% The Art of Prolog, Section 3.1.
+% Arithmetic.
+% The Art of Prolog, Section 3.1.
 
 square(X,Y) :- Y is X*X.
 

@@ -1,5 +1,5 @@
-%% Directed graph.
-%% The Art of Prolog, Chapter 2.
+% Directed graph.
+% The Art of Prolog, Chapter 2.
 
 edge(a,b).
 edge(a,c).

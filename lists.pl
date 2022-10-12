@@ -1,5 +1,5 @@
-%% Lists.
-%% The Art of Prolog, Section 3.2, 3.3.
+% Lists.
+% The Art of Prolog, Section 3.2, 3.3.
 
 list([]).
 list([_|Xs]) :- list(Xs).
@@ -70,6 +70,106 @@ double([X|Xs], [X|[X|Zs]]) :- double(Xs, Zs).
 % X = 15.
 sum([], 0).
 sum([X|Xs], S) :- sum(Xs, S1), S is S1 + X.
+
+% ?- delete([1,2,1,3,1,4,1,5,1], 1, Xs).
+% Xs = [2, 3, 4, 5]
+% ?- delete([1,2,1,3,1,4,1,5,1], X, [2, 3, 4, 5]).
+% X = 1 .
+delete([X|Xs], X, Ys) :- delete(Xs, X, Ys).
+delete([X|Xs], Z, [X|Ys]) :- X \= Z, delete(Xs, Z, Ys).
+delete([], _, []).
+
+% remove one occurrence of X:
+select(X, [X|Xs], Xs).
+select(X, [Y|Ys], [Y|Zs]) :- select(X, Ys, Zs).
+
+% Q: what is the meaning of this variant of select?
+% A: appends X to Ys, unless Ys have the first element repeated.
+selectVar(X, [X|Xs], Xs).
+selectVar(X, [Y|_], [Y|_]) :- X \= Y.
+selectVar(_, _, _).
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Permutation sort
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+permutationSort(Xs, Ys) :- permutation(Xs, Ys), ordered(Ys).
+
+permutation(Xs, [Z|Zs]) :- select(Z, Xs, Ys), permutation(Ys, Zs).
+permutation([], []).
+
+ordered([]).
+ordered([_]).
+ordered([X, Y|Ys]) :- X =< Y, ordered([Y|Ys]).
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Insertion sort
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+insertionSort([X|Xs], Ys) :- insertionSort(Xs, Zs), insert(X, Zs, Ys).
+insertionSort([], []).
+
+insert(X, [], [X]).
+insert(X, [Y|Ys], [Y|Zs]) :- X > Y, insert(X, Ys, Zs).
+insert(X, [Y|Ys], [X, Y|Ys]) :- X =< Y.
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Quick sort
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+quick_sort([X|Xs], Ys) :-
+    partition(Xs, X, Small, Big),
+    quick_sort(Small, SmallSorted),
+    quick_sort(Big, BigSorted),
+    append(SmallSorted, [X|BigSorted], Ys).
+
+quick_sort([], []).
+
+partition([X|Xs], Y, [X|Small], Big) :- X =< Y, partition(Xs, Y, Small, Big).
+partition([X|Xs], Y, Small, [X|Big]) :- X > Y, partition(Xs, Y, Small, Big).
+partition([], _, [], []).
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Permutations by parity
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+count_inversions(_, [], 0).
+count_inversions(X, [Y|Ys], N) :- Y > X, count_inversions(X, Ys, N1), N is N1 + 1.
+count_inversions(X, [_|Ys], N) :- count_inversions(X, Ys, N).
+
+inversion_num([], 0).
+inversion_num([X|Xs], N) :- count_inversions(X, Xs, N1), inversion_num(Xs, N2), N is N1 + N2.
+
+even_permutation(Xs, Ys) :- permutation(Xs, Ys), inversion_num(Ys, N), even(N).
+odd_permutation(Xs, Ys) :- permutation(Xs, Ys), inversion_num(Ys, N), odd(N).
+
+even(X) :- 0 is mod(X, 2).
+odd(X) :- 1 is mod(X, 2).
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Merge sort
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+take(_, 0, []).
+take([X|Xs], N, [X|Ys]) :- take(Xs, N1, Ys), N is N1 + 1.
+
+drop(Xs, 0, Xs).
+drop([_|Xs], N, Ys) :- drop(Xs, N1, Ys), N is N1 + 1.
+
+split_in_half(Xs, Ys, Zs) :- len(Xs, Nx), N is div(Nx, 2), take(Xs, N, Ys), drop(Xs, N, Zs).
+
+merge([], Xs, Xs).
+merge(Xs, [], Xs).
+merge([X|Xs], [Y|Ys], [X|Zs]) :- X =< Y, merge(Xs, [Y|Ys], Zs).
+merge([X|Xs], [Y|Ys], [Y|Zs]) :- X > Y, merge([X|Xs], Ys, Zs).
+
+merge_sort([], []).
+merge_sort([X], [X]).
+merge_sort(Xs, Zs) :-
+    split_in_half(Xs, As, Bs),
+    merge_sort(As, AsSorted),
+    merge_sort(Bs, BsSorted),
+    merge(AsSorted, BsSorted, Zs).
 
 /*
 

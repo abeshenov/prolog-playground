@@ -1,5 +1,5 @@
-%% Peano arithmetic.
-%% The Art of Prolog, Section 3.1.
+% Peano arithmetic.
+% The Art of Prolog, Section 3.1.
 
 natural_number(0).
 natural_number(s(X)) :- natural_number(X).
