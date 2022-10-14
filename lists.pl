@@ -1,5 +1,7 @@
-% Lists.
-% The Art of Prolog, Section 3.2, 3.3.
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% The Art of Prolog
+% Section 3.2: Lists
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
 list([]).
 list([_|Xs]) :- list(Xs).
@@ -19,13 +21,6 @@ sublist(Xs, [_|Ys]) :- sublist(Xs, Ys).
 append([], Ys, Ys).
 append([X|Xs],Ys,[X|Zs]) :- append(Xs,Ys,Zs).
 
-% substitution:
-% ?- substitute(a,x, [a,b,a,c], Xs).
-% Xs = [x, b, x, c]
-substitute(_, _, [], []).
-substitute(X, Y, [X|Xs], [Y|Ys]) :- substitute(X, Y, Xs, Ys).
-substitute(X, Y, [A|Xs], [A|Ys]) :- A \= X, substitute(X, Y, Xs, Ys).
-
 /*
 
 prefix, suffix, member in terms of append:
@@ -43,16 +38,17 @@ reverse_acc(Xs, Ys) :- reverse_acc(Xs, [], Ys).
 reverse_acc([X|Xs], Acc, Ys) :- reverse_acc(Xs, [X|Acc], Ys).
 reverse_acc([], Ys, Ys).
 
-adjacent(X, Y, [X|[Y|_]]).
-adjacent(X, Y, [_|Zs]) :- adjacent(X, Y, Zs).
-
-last([X], X) :- !.
-last([_|[X|Xs]], Y) :- last([X|Xs], Y).
+adjacent(X, Y, Zs) :- append(_, [X,Y|_], Zs).
+last(X, Xs) :- append(_, [X], Xs).
 
 % list length:
 len([], 0) :- !.
 len([_|Xs], N) :- len(Xs, N1), N is N1 + 1.
 
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+% Exercises
+
+% Exercise (i).
 % subsequence is different from sublist: e.g.
 % subsequence([1,3], [1,2,3]) = true
 % sublist([1,3], [1,2,3]) = false
@@ -60,34 +56,25 @@ subsequence([X|Xs], [X|Ys]) :- subsequence(Xs, Ys).
 subsequence(Xs, [_|Ys]) :- subsequence(Xs, Ys).
 subsequence([], _).
 
-% repeats each element twice:
-% ?- double([1,2,3], Xs).
-% Xs = [1, 1, 2, 2, 3, 3].
+% Exercise (ii). Write recursive programs for adjacent and last that have the
+% same meaning as the predicates defined in the text in terms of append.
+adjacent_rec(X, Y, [X|[Y|_]]).
+adjacent_rec(X, Y, [_|Zs]) :- adjacent_rec(X, Y, Zs).
+
+last_rec(X, [X]).
+last_rec(Y, [_|[X|Xs]]) :- last_rec(Y, [X|Xs]).
+
+% Exercise (iii). Write a program for double (List,ListList), where every
+% element in List appears twice in ListList, e.g.,
+% double([1,2,3] [1,1,2,2,3,3]) is true.
 double([], []).
 double([X|Xs], [X|[X|Zs]]) :- double(Xs, Zs).
 
-% ?- sum([1,2,3,4,5], X).
-% X = 15.
+% Exercise (v). Define the relation sum(ListofIntegers,Sum), which holds if
+% Sum is the sum of the ListOfIntegers.
+% * Here we'll use real arithmetic in Prolog.
 sum([], 0).
 sum([X|Xs], S) :- sum(Xs, S1), S is S1 + X.
-
-% ?- delete([1,2,1,3,1,4,1,5,1], 1, Xs).
-% Xs = [2, 3, 4, 5]
-% ?- delete([1,2,1,3,1,4,1,5,1], X, [2, 3, 4, 5]).
-% X = 1 .
-delete([X|Xs], X, Ys) :- delete(Xs, X, Ys).
-delete([X|Xs], Z, [X|Ys]) :- X \= Z, delete(Xs, Z, Ys).
-delete([], _, []).
-
-% remove one occurrence of X:
-select(X, [X|Xs], Xs).
-select(X, [Y|Ys], [Y|Zs]) :- select(X, Ys, Zs).
-
-% Q: what is the meaning of this variant of select?
-% A: appends X to Ys, unless Ys have the first element repeated.
-selectVar(X, [X|Xs], Xs).
-selectVar(X, [Y|_], [Y|_]) :- X \= Y.
-selectVar(_, _, _).
 
 /*
 
