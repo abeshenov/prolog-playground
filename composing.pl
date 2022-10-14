@@ -127,7 +127,8 @@ merge_sort(Xs, Zs) :-
 % I suspect the books refers to https://en.wikipedia.org/wiki/Quickselect
 % but something is off with the description.
 
-% Inspired by 
+% Inspired by
+% https://github.com/abeshenov/leetcode/blob/main/haskell/KthLargestElement.hs
 
 quick_select_partition([X|Xs], Smaller, Equal, Bigger) :-
     smaller(X, Xs, Smaller),
